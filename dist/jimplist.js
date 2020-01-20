@@ -9,8 +9,8 @@ var JimpNode = /** @class */ (function () {
         this.height = 0;
     }
     JimpNode.prototype.toString = function () {
-        return "JimpNode-" + this.value + " height:" + this.height + "\nleft-" + this.value + ": " + this.left + "\nright-" + this.value + ": " + this.right;
-        // return `JimpNode-${this.value}`;
+        // return `JimpNode-${this.value} height:${this.height}\nleft-${this.value}: ${this.left}\nright-${this.value}: ${this.right}`
+        return "JimpNode-" + this.value;
         // return "JimpNode-" + this.value;
     };
     JimpNode.prototype.add = function (num) {
@@ -77,9 +77,32 @@ var JimpList = /** @class */ (function () {
             //Do something with odd
             var middle = ~~(searchList.length / 2);
             console.log(middle);
+            if (searchList[middle].value === num) {
+                return searchList[middle];
+            }
+            else if (searchList[middle].value > num) {
+                return this.search(num, searchList.slice(0, middle));
+            }
+            else {
+                return this.search(num, searchList.slice(middle + 1, searchList.length));
+            }
         }
         else {
             //Do something with even
+            var middle = ~~(searchList.length / 2);
+            console.log(middle);
+            if (searchList[middle].value === num) {
+                return searchList[middle];
+            }
+            else if (searchList[middle - 1].value === num) {
+                return searchList[middle - 1];
+            }
+            else if (searchList[middle].value < num) {
+                return this.search(num, searchList.slice(0, middle));
+            }
+            else {
+                return this.search(num, searchList.slice(middle, searchList.length));
+            }
         }
     };
     return JimpList;

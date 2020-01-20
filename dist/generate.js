@@ -66,11 +66,11 @@ function example() {
     });
 }
 // example();
-var bstInputs = [9, 6, 5, 3, 2, 4];
-// const bstInputs: number[] = [1, 7, 0, 3, 4];
+// const bstInputs: number[] = [9, 6, 5, 3, 2, 4];
+var bstInputs = [1, 7, 0, 3, 4];
 // const bstInputs: number[] = [2, 1];
-var jl = new jimplist_1.default(7);
-// const jl = new JimpList(5);
+// const jl = new JimpList(7);
+var jl = new jimplist_1.default(5);
 // const jl = new JimpList(3);
 // jl.add(9);
 // jl.add(6);
@@ -85,4 +85,4 @@ for (var _i = 0, bstInputs_1 = bstInputs; _i < bstInputs_1.length; _i++) {
 // console.log(jl);
 jl.inOrder(jl.root);
 // console.log(jl.sortedList);
-jl.search(3, jl.sortedList);
+console.log(jl.search(0, jl.sortedList));

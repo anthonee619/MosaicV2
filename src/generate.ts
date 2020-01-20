@@ -17,12 +17,12 @@ async function example() {
 // example();
 
 
-const bstInputs: number[] = [9, 6, 5, 3, 2, 4];
-// const bstInputs: number[] = [1, 7, 0, 3, 4];
+// const bstInputs: number[] = [9, 6, 5, 3, 2, 4];
+const bstInputs: number[] = [1, 7, 0, 3, 4];
 // const bstInputs: number[] = [2, 1];
 
-const jl = new JimpList(7);
-// const jl = new JimpList(5);
+// const jl = new JimpList(7);
+const jl = new JimpList(5);
 // const jl = new JimpList(3);
 // jl.add(9);
 // jl.add(6);
@@ -38,4 +38,4 @@ for (var i of bstInputs) {
 // console.log(jl);
 jl.inOrder(jl.root);
 // console.log(jl.sortedList);
-jl.search(3, jl.sortedList);
+console.log(jl.search(0, jl.sortedList));

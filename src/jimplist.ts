@@ -91,17 +91,33 @@ export default class JimpList {
     }
   }
 
-  search(num: number, searchList: JimpNode[]) {
+  search(num: number, searchList: JimpNode[]): JimpNode {
     if (searchList.length % 2 === 1) {
       //Do something with odd
       let middle = ~~(searchList.length / 2);
+      console.log(middle);
       if (searchList[middle].value === num) {
-        console.log(searchList[middle].toString());
+        return searchList[middle];
+      } else if (searchList[middle].value > num) {
+        return this.search(num, searchList.slice(0, middle));
+      } else {
+        return this.search(num, searchList.slice(middle + 1, searchList.length));
       }
-
 
     } else {
       //Do something with even
+      let middle = ~~(searchList.length / 2);
+      console.log(middle);
+      if (searchList[middle].value === num) {
+        return searchList[middle];
+      } else if (searchList[middle - 1].value === num) {
+        return searchList[middle - 1];
+      } else if (searchList[middle].value < num) {
+        return this.search(num, searchList.slice(0, middle));
+      } else {
+        return this.search(num, searchList.slice(middle, searchList.length));
+      }
+
     }
   }
 }

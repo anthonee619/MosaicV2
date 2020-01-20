@@ -2,6 +2,7 @@ import JimpImage from './jimp-image';
 import MNG from './MNG';
 import { URLS } from './urls';
 import { DATA } from './report.json';
+import JimpList from './jimplist';
 
 const newData = DATA.donations.map((item) => {
   return item.profile_image_url;
@@ -13,4 +14,28 @@ async function example() {
   console.log(`Final Mosaic Image was saved at location '${outputImageName}'`);
 }
 
-example();
+// example();
+
+
+const bstInputs: number[] = [9, 6, 5, 3, 2, 4];
+// const bstInputs: number[] = [1, 7, 0, 3, 4];
+// const bstInputs: number[] = [2, 1];
+
+const jl = new JimpList(7);
+// const jl = new JimpList(5);
+// const jl = new JimpList(3);
+// jl.add(9);
+// jl.add(6);
+// jl.add(5);
+
+for (var i of bstInputs) {
+  // console.log(i)
+  jl.add(i);
+  // console.log(jl.toString());
+}
+
+// console.log(jl.toString());
+// console.log(jl);
+jl.inOrder(jl.root);
+// console.log(jl.sortedList);
+jl.search(3, jl.sortedList);

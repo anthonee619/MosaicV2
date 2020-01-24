@@ -4,7 +4,7 @@ import RGB from './rgb';
 class JimpNode {
   //rgb = value later
   public value: number;
-  // public rgb: RGB;
+  public rgb : RGB;
   public left: JimpNode | null;
   public right: JimpNode | null;
   public height: number;

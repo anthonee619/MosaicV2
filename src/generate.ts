@@ -3,6 +3,7 @@ import MNG from './MNG';
 import { URLS } from './urls';
 import { DATA } from './report.json';
 import JimpList from './jimplist';
+import RGB from './rgb';
 
 const newData = DATA.donations.map((item) => {
   return item.profile_image_url;
@@ -36,6 +37,9 @@ for (var i of bstInputs) {
 
 // console.log(jl.toString());
 // console.log(jl);
-jl.inOrder(jl.root);
+// jl.inOrder(jl.root);
 // console.log(jl.sortedList);
-console.log(jl.search(0, jl.sortedList));
+// console.log(jl.search(7, jl.sortedList).toString());
+const rgb1 = new RGB(255, 254, 253);
+const rgb2 = new RGB(255, 255, 254);
+console.log(rgb1.getColorDistance(rgb2));

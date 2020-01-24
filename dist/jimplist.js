@@ -75,32 +75,44 @@ var JimpList = /** @class */ (function () {
     JimpList.prototype.search = function (num, searchList) {
         if (searchList.length % 2 === 1) {
             //Do something with odd
+            console.log("96");
             var middle = ~~(searchList.length / 2);
             console.log(middle);
+            console.log(searchList);
             if (searchList[middle].value === num) {
                 return searchList[middle];
             }
             else if (searchList[middle].value > num) {
+                console.log("104");
+                console.log(0 + "-" + middle);
                 return this.search(num, searchList.slice(0, middle));
             }
             else {
+                console.log("108");
+                console.log(middle + 1 + "-" + searchList.length);
                 return this.search(num, searchList.slice(middle + 1, searchList.length));
             }
         }
         else {
             //Do something with even
             var middle = ~~(searchList.length / 2);
+            console.log("113");
             console.log(middle);
+            console.log(searchList);
             if (searchList[middle].value === num) {
                 return searchList[middle];
             }
             else if (searchList[middle - 1].value === num) {
                 return searchList[middle - 1];
             }
-            else if (searchList[middle].value < num) {
+            else if (searchList[middle].value > num) {
+                console.log("120");
+                console.log(0 + "-" + middle);
                 return this.search(num, searchList.slice(0, middle));
             }
             else {
+                console.log("123");
+                console.log(middle + "-" + searchList.length);
                 return this.search(num, searchList.slice(middle, searchList.length));
             }
         }

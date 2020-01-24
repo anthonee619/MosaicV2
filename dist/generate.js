@@ -43,6 +43,7 @@ var jimp_image_1 = __importDefault(require("./jimp-image"));
 var MNG_1 = __importDefault(require("./MNG"));
 var report_json_1 = require("./report.json");
 var jimplist_1 = __importDefault(require("./jimplist"));
+var rgb_1 = __importDefault(require("./rgb"));
 var newData = report_json_1.DATA.donations.map(function (item) {
     return item.profile_image_url;
 });
@@ -83,6 +84,9 @@ for (var _i = 0, bstInputs_1 = bstInputs; _i < bstInputs_1.length; _i++) {
 }
 // console.log(jl.toString());
 // console.log(jl);
-jl.inOrder(jl.root);
+// jl.inOrder(jl.root);
 // console.log(jl.sortedList);
-console.log(jl.search(0, jl.sortedList));
+// console.log(jl.search(7, jl.sortedList).toString());
+var rgb1 = new rgb_1.default(255, 254, 253);
+var rgb2 = new rgb_1.default(255, 255, 254);
+console.log(rgb1.getColorDistance(rgb2));

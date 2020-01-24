@@ -15,4 +15,9 @@ export default class RGB {
     let bDiff = rgb.b - this.b;
     return Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff);
   }
+
+  equals(rgb: RGB) {
+    return this.r === rgb.r && this.g === rgb.g && this.b === rgb.b;
+  }
+
 }

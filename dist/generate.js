@@ -42,7 +42,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var jimp_image_1 = __importDefault(require("./jimp-image"));
 var MNG_1 = __importDefault(require("./MNG"));
 var report_json_1 = require("./report.json");
-var jimplist_1 = __importDefault(require("./jimplist"));
+// import JimpList from './jimplist';
+var jimplist2_1 = __importDefault(require("./jimplist2"));
 var rgb_1 = __importDefault(require("./rgb"));
 var newData = report_json_1.DATA.donations.map(function (item) {
     return item.profile_image_url;
@@ -66,27 +67,74 @@ function example() {
         });
     });
 }
-// example();
-// const bstInputs: number[] = [9, 6, 5, 3, 2, 4];
-var bstInputs = [1, 7, 0, 3, 4];
-// const bstInputs: number[] = [2, 1];
-// const jl = new JimpList(7);
-var jl = new jimplist_1.default(5);
-// const jl = new JimpList(3);
-// jl.add(9);
-// jl.add(6);
-// jl.add(5);
-for (var _i = 0, bstInputs_1 = bstInputs; _i < bstInputs_1.length; _i++) {
-    var i = bstInputs_1[_i];
-    // console.log(i)
-    jl.add(i);
-    // console.log(jl.toString());
+var rgbs = [
+    { color: "black", rgb: new rgb_1.default(0, 0, 0) },
+    { color: "white", rgb: new rgb_1.default(255, 255, 255) },
+    { color: "red", rgb: new rgb_1.default(255, 0, 0) },
+    { color: "lime", rgb: new rgb_1.default(0, 255, 0) },
+    { color: "blue", rgb: new rgb_1.default(0, 0, 255) },
+    { color: "yellow", rgb: new rgb_1.default(255, 255, 0) },
+    { color: "cyan", rgb: new rgb_1.default(0, 255, 255) },
+    { color: "magenta", rgb: new rgb_1.default(255, 0, 255) },
+];
+exports.exampleSort = [
+    new rgb_1.default(255, 0, 0),
+    new rgb_1.default(255, 127, 0),
+    new rgb_1.default(255, 127, 127),
+    new rgb_1.default(255, 255, 0),
+    new rgb_1.default(127, 255, 0),
+    new rgb_1.default(0, 255, 0),
+    new rgb_1.default(0, 255, 127),
+    new rgb_1.default(0, 255, 255),
+    new rgb_1.default(0, 127, 255),
+    new rgb_1.default(0, 0, 255),
+    new rgb_1.default(127, 0, 255),
+    new rgb_1.default(255, 0, 255),
+    new rgb_1.default(255, 0, 127),
+];
+console.log(exports.exampleSort[5] - exports.exampleSort[6]);
+// const exampleSort2 = [
+//   new RGB(255, 127, 0), // orange
+//   new RGB(0, 255, 255), // mint
+//   new RGB(127, 0, 255), // purple
+//   new RGB(0, 255, 127), // spear-mint
+//   new RGB(0, 127, 255), // light blue
+//   new RGB(255, 0, 127), // magenta
+//   new RGB(0, 255, 0), // green
+//   new RGB(255, 0, 255), // pink
+//   new RGB(255, 0, 0), // red
+//   // new RGB(255, 255, 0), // yellow
+//   new RGB(127, 255, 0), // lime
+//   new RGB(0, 0, 255), // blue
+//   new RGB(255, 127, 127), // magenta
+// ]
+// const nRGBS: RGB[] = [];
+// rgbs.map((i) => {
+//   nRGBS.push(i.rgb);
+// })
+// console.log(nRGBS);
+// example sorting print
+var exampleSort2 = [];
+for (var i = 0; i < 9000; i++) {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    exampleSort2.push(new rgb_1.default(r, g, b));
 }
-// console.log(jl.toString());
-// console.log(jl);
-// jl.inOrder(jl.root);
-// console.log(jl.sortedList);
-// console.log(jl.search(7, jl.sortedList).toString());
-var rgb1 = new rgb_1.default(255, 254, 253);
-var rgb2 = new rgb_1.default(255, 255, 254);
-console.log(rgb1.getColorDistance(rgb2));
+var jlist = new jimplist2_1.default(exampleSort2.pop());
+exampleSort2.map(function (rgb, i) {
+    // console.log('-----------------------------------------------------------')
+    // console.log(`${i} : ${rgb.print()}`)
+    // console.log(`${i} : ${rgb.hslToString()}`)
+    jlist.add(rgb);
+});
+// console.log();
+// console.log();
+// console.log();
+// jlist.print();
+// const jlist = new JimpList(new RGB(0, 255, 0))
+// exampleSort.map((i) => {
+//   jlist.add(i);
+// })
+//
+// jlist.print();

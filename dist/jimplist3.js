@@ -59,10 +59,10 @@ var JimpNode = /** @class */ (function () {
                         _b.label = 3;
                     case 3:
                         rgb = _a;
-                        console.log(this.rgb);
-                        console.log(rgb);
                         if (this.rgb.equals(rgb)) {
                             // RGB Values are the same
+                            console.log(this.rgb);
+                            console.log(rgb);
                             this.imgs.push(img);
                         }
                         else if (this.rgb.greaterThan(rgb)) {

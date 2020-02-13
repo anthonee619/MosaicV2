@@ -16,10 +16,10 @@ class JimpNode {
 
   async add(img: JimpImage, rgb?: RGB) {
     rgb = rgb ? rgb : await img.getAverageColor();
-    console.log(this.rgb);
-    console.log(rgb);
     if (this.rgb.equals(rgb)) {
       // RGB Values are the same
+      console.log(this.rgb);
+      console.log(rgb);
       this.imgs.push(img);
     }
     else if (this.rgb.greaterThan(rgb)) {

@@ -46,12 +46,15 @@ const rgbs = [
 // })
 // jlist.print();
 
+const url = 'https://static-cdn.jtvnw.net/jtv_user_pictures/55e85d0b-fa97-42b6-acfe-34acb695d1df-profile_image-300x300.jpg';
 
 async function switchToImg() {
-  const root = new JimpImage(await JimpImage.read(URLS[0]))
-  const child = new JimpImage(await JimpImage.read(URLS[1]))
+  const root = new JimpImage(await JimpImage.read(url))
   const jlist = new JimpList(root, await root.getAverageColor());
-  await jlist.add(child);
+  for (let i in URLS) {
+    let child = await JimpImage.read(URLS[i]).catch((err) => console.log(i));
+    jlist.add(new JimpImage(child));
+  }
   console.log(jlist);
 }
 

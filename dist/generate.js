@@ -95,28 +95,50 @@ var rgbs = [
 //   jlist.add(rgb);
 // })
 // jlist.print();
+var url = 'https://static-cdn.jtvnw.net/jtv_user_pictures/55e85d0b-fa97-42b6-acfe-34acb695d1df-profile_image-300x300.jpg';
 function switchToImg() {
     return __awaiter(this, void 0, void 0, function () {
-        var root, _a, child, _b, jlist, _c, _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
+        var root, _a, jlist, _b, _c, _loop_1, _d, _e, _i, i;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
                 case 0:
                     _a = jimp_image_1.default.bind;
-                    return [4 /*yield*/, jimp_image_1.default.read(urls_1.URLS[0])];
+                    return [4 /*yield*/, jimp_image_1.default.read(url)];
                 case 1:
-                    root = new (_a.apply(jimp_image_1.default, [void 0, _e.sent()]))();
-                    _b = jimp_image_1.default.bind;
-                    return [4 /*yield*/, jimp_image_1.default.read(urls_1.URLS[1])];
-                case 2:
-                    child = new (_b.apply(jimp_image_1.default, [void 0, _e.sent()]))();
-                    _c = jimplist3_1.default.bind;
-                    _d = [void 0, root];
+                    root = new (_a.apply(jimp_image_1.default, [void 0, _f.sent()]))();
+                    _b = jimplist3_1.default.bind;
+                    _c = [void 0, root];
                     return [4 /*yield*/, root.getAverageColor()];
+                case 2:
+                    jlist = new (_b.apply(jimplist3_1.default, _c.concat([_f.sent()])))();
+                    _loop_1 = function (i) {
+                        var child;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, jimp_image_1.default.read(urls_1.URLS[i]).catch(function (err) { return console.log(i); })];
+                                case 1:
+                                    child = _a.sent();
+                                    jlist.add(new jimp_image_1.default(child));
+                                    return [2 /*return*/];
+                            }
+                        });
+                    };
+                    _d = [];
+                    for (_e in urls_1.URLS)
+                        _d.push(_e);
+                    _i = 0;
+                    _f.label = 3;
                 case 3:
-                    jlist = new (_c.apply(jimplist3_1.default, _d.concat([_e.sent()])))();
-                    return [4 /*yield*/, jlist.add(child)];
+                    if (!(_i < _d.length)) return [3 /*break*/, 6];
+                    i = _d[_i];
+                    return [5 /*yield**/, _loop_1(i)];
                 case 4:
-                    _e.sent();
+                    _f.sent();
+                    _f.label = 5;
+                case 5:
+                    _i++;
+                    return [3 /*break*/, 3];
+                case 6:
                     console.log(jlist);
                     return [2 /*return*/];
             }

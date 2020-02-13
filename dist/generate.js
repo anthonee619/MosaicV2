@@ -41,9 +41,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var jimp_image_1 = __importDefault(require("./jimp-image"));
 var MNG_1 = __importDefault(require("./MNG"));
+var urls_1 = require("./urls");
 var report_json_1 = require("./report.json");
 // import JimpList from './jimplist';
-var jimplist2_1 = __importDefault(require("./jimplist2"));
+// import JimpList from './jimplist2';
+var jimplist3_1 = __importDefault(require("./jimplist3"));
 var rgb_1 = __importDefault(require("./rgb"));
 var newData = report_json_1.DATA.donations.map(function (item) {
     return item.profile_image_url;
@@ -77,64 +79,48 @@ var rgbs = [
     { color: "cyan", rgb: new rgb_1.default(0, 255, 255) },
     { color: "magenta", rgb: new rgb_1.default(255, 0, 255) },
 ];
-exports.exampleSort = [
-    new rgb_1.default(255, 0, 0),
-    new rgb_1.default(255, 127, 0),
-    new rgb_1.default(255, 127, 127),
-    new rgb_1.default(255, 255, 0),
-    new rgb_1.default(127, 255, 0),
-    new rgb_1.default(0, 255, 0),
-    new rgb_1.default(0, 255, 127),
-    new rgb_1.default(0, 255, 255),
-    new rgb_1.default(0, 127, 255),
-    new rgb_1.default(0, 0, 255),
-    new rgb_1.default(127, 0, 255),
-    new rgb_1.default(255, 0, 255),
-    new rgb_1.default(255, 0, 127),
-];
-console.log(exports.exampleSort[5] - exports.exampleSort[6]);
-// const exampleSort2 = [
-//   new RGB(255, 127, 0), // orange
-//   new RGB(0, 255, 255), // mint
-//   new RGB(127, 0, 255), // purple
-//   new RGB(0, 255, 127), // spear-mint
-//   new RGB(0, 127, 255), // light blue
-//   new RGB(255, 0, 127), // magenta
-//   new RGB(0, 255, 0), // green
-//   new RGB(255, 0, 255), // pink
-//   new RGB(255, 0, 0), // red
-//   // new RGB(255, 255, 0), // yellow
-//   new RGB(127, 255, 0), // lime
-//   new RGB(0, 0, 255), // blue
-//   new RGB(255, 127, 127), // magenta
-// ]
-// const nRGBS: RGB[] = [];
-// rgbs.map((i) => {
-//   nRGBS.push(i.rgb);
-// })
-// console.log(nRGBS);
-// example sorting print
-var exampleSort2 = [];
-for (var i = 0; i < 9000; i++) {
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
-    exampleSort2.push(new rgb_1.default(r, g, b));
-}
-var jlist = new jimplist2_1.default(exampleSort2.pop());
-exampleSort2.map(function (rgb, i) {
-    // console.log('-----------------------------------------------------------')
-    // console.log(`${i} : ${rgb.print()}`)
-    // console.log(`${i} : ${rgb.hslToString()}`)
-    jlist.add(rgb);
-});
-// console.log();
-// console.log();
-// console.log();
-// jlist.print();
-// const jlist = new JimpList(new RGB(0, 255, 0))
-// exampleSort.map((i) => {
-//   jlist.add(i);
-// })
+// ------------------Random rgb value Generator------------------
+// Jimplist2 needs to be used for the jimplist
+// const exampleSort2: RGB[] = [];
 //
+// for (let i = 0; i < 9000; i++) {
+//   let r = Math.floor(Math.random() * 255);
+//   let g = Math.floor(Math.random() * 255);
+//   let b = Math.floor(Math.random() * 255);
+//   exampleSort2.push(new RGB(r, g, b))
+// }
+//
+// const jlist = new JimpList(exampleSort2.pop());
+// exampleSort2.map((rgb, i) => {
+//   jlist.add(rgb);
+// })
 // jlist.print();
+function switchToImg() {
+    return __awaiter(this, void 0, void 0, function () {
+        var root, _a, child, _b, jlist, _c, _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    _a = jimp_image_1.default.bind;
+                    return [4 /*yield*/, jimp_image_1.default.read(urls_1.URLS[0])];
+                case 1:
+                    root = new (_a.apply(jimp_image_1.default, [void 0, _e.sent()]))();
+                    _b = jimp_image_1.default.bind;
+                    return [4 /*yield*/, jimp_image_1.default.read(urls_1.URLS[1])];
+                case 2:
+                    child = new (_b.apply(jimp_image_1.default, [void 0, _e.sent()]))();
+                    _c = jimplist3_1.default.bind;
+                    _d = [void 0, root];
+                    return [4 /*yield*/, root.getAverageColor()];
+                case 3:
+                    jlist = new (_c.apply(jimplist3_1.default, _d.concat([_e.sent()])))();
+                    return [4 /*yield*/, jlist.add(child)];
+                case 4:
+                    _e.sent();
+                    console.log(jlist);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+switchToImg();

@@ -3,7 +3,8 @@ import MNG from './MNG';
 import { URLS } from './urls';
 import { DATA } from './report.json';
 // import JimpList from './jimplist';
-import JimpList from './jimplist2';
+// import JimpList from './jimplist2';
+import JimpList from './jimplist3';
 import RGB from './rgb';
 
 const newData = DATA.donations.map((item) => {
@@ -27,71 +28,31 @@ const rgbs = [
   { color: "magenta", rgb: new RGB(255, 0, 255) }, // magenta
 ]
 
-export const exampleSort = [
-  new RGB(255, 0, 0), // red
-  new RGB(255, 127, 0), // orange
-  new RGB(255, 127, 127), // magenta
-  new RGB(255, 255, 0), // yellow
-  new RGB(127, 255, 0), // lime
-  new RGB(0, 255, 0), // green
-  new RGB(0, 255, 127), // spear-mint
-  new RGB(0, 255, 255), // mint
-  new RGB(0, 127, 255), // light blue
-  new RGB(0, 0, 255), // blue
-  new RGB(127, 0, 255), // purple
-  new RGB(255, 0, 255), // pink
-  new RGB(255, 0, 127), // magenta
-]
 
-// const exampleSort2 = [
-//   new RGB(255, 127, 0), // orange
-//   new RGB(0, 255, 255), // mint
-//   new RGB(127, 0, 255), // purple
-//   new RGB(0, 255, 127), // spear-mint
-//   new RGB(0, 127, 255), // light blue
-//   new RGB(255, 0, 127), // magenta
-//   new RGB(0, 255, 0), // green
-//   new RGB(255, 0, 255), // pink
-//   new RGB(255, 0, 0), // red
-//   // new RGB(255, 255, 0), // yellow
-//   new RGB(127, 255, 0), // lime
-//   new RGB(0, 0, 255), // blue
-//   new RGB(255, 127, 127), // magenta
-// ]
-
-// const nRGBS: RGB[] = [];
-// rgbs.map((i) => {
-//   nRGBS.push(i.rgb);
+// ------------------Random rgb value Generator------------------
+// Jimplist2 needs to be used for the jimplist
+// const exampleSort2: RGB[] = [];
+//
+// for (let i = 0; i < 9000; i++) {
+//   let r = Math.floor(Math.random() * 255);
+//   let g = Math.floor(Math.random() * 255);
+//   let b = Math.floor(Math.random() * 255);
+//   exampleSort2.push(new RGB(r, g, b))
+// }
+//
+// const jlist = new JimpList(exampleSort2.pop());
+// exampleSort2.map((rgb, i) => {
+//   jlist.add(rgb);
 // })
-// console.log(nRGBS);
+// jlist.print();
 
-// example sorting print
 
-const exampleSort2: RGB[] = [];
-
-for (let i = 0; i < 9000; i++) {
-  let r = Math.floor(Math.random() * 255);
-  let g = Math.floor(Math.random() * 255);
-  let b = Math.floor(Math.random() * 255);
-  exampleSort2.push(new RGB(r, g, b))
+async function switchToImg() {
+  const root = new JimpImage(await JimpImage.read(URLS[0]))
+  const child = new JimpImage(await JimpImage.read(URLS[1]))
+  const jlist = new JimpList(root, await root.getAverageColor());
+  await jlist.add(child);
+  console.log(jlist);
 }
 
-const jlist = new JimpList(exampleSort2.pop());
-
-exampleSort2.map((rgb, i) => {
-  // console.log('-----------------------------------------------------------')
-  // console.log(`${i} : ${rgb.print()}`)
-  // console.log(`${i} : ${rgb.hslToString()}`)
-  jlist.add(rgb);
-})
-// console.log();
-// console.log();
-// console.log();
-jlist.print();
-
-// const jlist = new JimpList(new RGB(0, 255, 0))
-// exampleSort.map((i) => {
-//   jlist.add(i);
-// })
-//
-// jlist.print();
+switchToImg();

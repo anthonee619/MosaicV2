@@ -132,6 +132,104 @@ var MNG2 = /** @class */ (function () {
             }); });
         });
     };
+    MNG2.prototype.processRowsAndColumns = function (rowStart, colStart, numRows, numCols) {
+        var _this = this;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var _loop_1, row;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.enableConsoleLogging)
+                            console.log(new Date().toString() + " - Generating mosaic from (" + rowStart + ", " + colStart + ") to (" + (rowStart + numRows) + ", " + (colStart + numCols) + ")");
+                        _loop_1 = function (row) {
+                            var _processColsForRow;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        _processColsForRow = function () { return __awaiter(_this, void 0, void 0, function () {
+                                            var col, imageAvgColor, bestTile;
+                                            return __generator(this, function (_a) {
+                                                switch (_a.label) {
+                                                    case 0:
+                                                        console.log("- " + new Date().toString() + " - [Mosaic creation]. Progress: " + this._calcProgress(row, numRows) + "%");
+                                                        col = colStart;
+                                                        _a.label = 1;
+                                                    case 1:
+                                                        if (!(col < numCols)) return [3 /*break*/, 4];
+                                                        return [4 /*yield*/, this.image.getAverageColor(col * this.cellWidth, row * this.cellHeight, this.cellWidth, this.cellHeight)];
+                                                    case 2:
+                                                        imageAvgColor = _a.sent();
+                                                        bestTile = this.jimpList.bestTile(imageAvgColor);
+                                                        // Composite the calculated best  tile in the final image
+                                                        this.image.composite(bestTile, col * this.cellWidth, row * this.cellHeight);
+                                                        _a.label = 3;
+                                                    case 3:
+                                                        col++;
+                                                        return [3 /*break*/, 1];
+                                                    case 4:
+                                                        Promise.resolve();
+                                                        return [2 /*return*/];
+                                                }
+                                            });
+                                        }); };
+                                        return [4 /*yield*/, _processColsForRow()];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        };
+                        row = rowStart;
+                        _a.label = 1;
+                    case 1:
+                        if (!(row < numRows)) return [3 /*break*/, 4];
+                        return [5 /*yield**/, _loop_1(row)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        row++;
+                        return [3 /*break*/, 1];
+                    case 4:
+                        resolve();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+    };
+    MNG2.prototype.generate = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var _generate = function () { return __awaiter(_this, void 0, void 0, function () {
+                var outputImageName;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.getTiles().catch(function (err) { return Promise.reject((err)); })];
+                        case 1:
+                            _a.sent();
+                            if (!(this.jimpList.sortedList.length > 0)) return [3 /*break*/, 4];
+                            return [4 /*yield*/, this.processRowsAndColumns(0, 0, this.rows, this.columns).catch(function (err) { return Promise.reject(err); })];
+                        case 2:
+                            _a.sent();
+                            console.log('Saving mosaic image...');
+                            return [4 /*yield*/, this.image.save().catch(function (err) { return Promise.reject(err); })];
+                        case 3:
+                            outputImageName = _a.sent();
+                            if (this.enableConsoleLogging)
+                                console.log('Mosaic image saved! --> ' + outputImageName);
+                            resolve(outputImageName);
+                            return [3 /*break*/, 5];
+                        case 4:
+                            reject('Tiles were not loaded');
+                            _a.label = 5;
+                        case 5: return [2 /*return*/];
+                    }
+                });
+            }); };
+            _generate().catch(function (err) { reject(err); });
+        });
+    };
     return MNG2;
 }());
 exports.default = MNG2;

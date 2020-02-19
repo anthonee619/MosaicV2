@@ -105,30 +105,51 @@ export default class MNG2 {
     })
   }
 
-  // processRowsAndColumns(rowStart: number, colStart: number, numRows: number, numCols: number): Promise<any> {
-  //   return new Promise(async (resolve, reject) => {
-  //     if (this.enableConsoleLogging) console.log(`${new Date().toString()} - Generating mosaic from (${rowStart}, ${colStart}) to (${rowStart + numRows}, ${colStart + numCols})`);
-  //     for (let row = rowStart, row <numRows; row++) {
-  //       const _processColsForRow = async (): Promise<any> => {
-  //         console.log(`- ${new Date().toString()} - [Mosaic creation]. Progress: ${this._calcProgress(row, numRows)}%`);
-  //         for (let col = colStart; col < numCols; col++) {
-  //           // get the avg color of the current cell
-  //           let imageAvgColor: RGB = await this.image.getAverageColor(col * this.cellWidth, row * this.cellHeight, this.cellWidth, this.cellHeight);
-  //           // get the best tile for the cell
-  //           let bestTile: JimpImage = this.jimpList.search(imageAvgColor);
-  //           // Composite the calculated best  tile in the final image
-  //           this.image.composite(bestTile, col * this.cellWidth, row * this.cellHeight);
-  //         }
-  //
-  //       }
-  //
-  //     })
-  // }
+  processRowsAndColumns(rowStart: number, colStart: number, numRows: number, numCols: number): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      if (this.enableConsoleLogging) console.log(`${new Date().toString()} - Generating mosaic from (${rowStart}, ${colStart}) to (${rowStart + numRows}, ${colStart + numCols})`);
+      for (let row = rowStart; row < numRows; row++) {
+        const _processColsForRow = async (): Promise<any> => {
+          console.log(`- ${new Date().toString()} - [Mosaic creation]. Progress: ${this._calcProgress(row, numRows)}%`);
+          for (let col = colStart; col < numCols; col++) {
+            // get the avg color of the current cell
+            let imageAvgColor: RGB = await this.image.getAverageColor(col * this.cellWidth, row * this.cellHeight, this.cellWidth, this.cellHeight);
+            // get the best tile for the cell
+            let bestTile: JimpImage = this.jimpList.bestTile(imageAvgColor);
+            // Composite the calculated best  tile in the final image
+            this.image.composite(bestTile, col * this.cellWidth, row * this.cellHeight);
+          }
+          Promise.resolve();
+        };
+        await _processColsForRow();
+      }
+      resolve();
+    });
+  }
+
+  generate(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const _generate = async () => {
+        await this.getTiles().catch((err) => Promise.reject((err)));
+        if (this.jimpList.sortedList.length > 0) {
+          await this.processRowsAndColumns(0, 0, this.rows, this.columns).catch((err) => Promise.reject(err));
+          console.log('Saving mosaic image...');
+          let outputImageName = await this.image.save().catch((err) => Promise.reject(err));
+          if (this.enableConsoleLogging) console.log('Mosaic image saved! --> ' + outputImageName);
+          resolve(outputImageName);
+        }
+        else {
+          reject('Tiles were not loaded');
+        }
+      };
+      _generate().catch((err) => { reject(err) });
+    });
+  }
+
 }
 
 async function asyncForEach(array: any[], callback: any) {
   for (let i = 0; i < array.length; i++) {
     await callback(array[i], i, array);
   }
-
 }

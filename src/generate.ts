@@ -60,7 +60,6 @@ async function switchToImg() {
   jlist.sort();
   console.log(jlist.sortedList.length);
   jlist.print();
-  jlist.numberOf();
 }
 
 // switchToImg();
@@ -73,4 +72,14 @@ async function mng2Test() {
 }
 
 // mng2Test();
-example();
+// example();
+
+async function mng2Test2() {
+  const inputImage = new JimpImage(await JimpImage.read('./imgs/1.jpg'));
+  const mng2 = new MNG2(inputImage, URLS);
+  await mng2.getTiles();
+  mng2.jimpList.print();
+  console.log(mng2.jimpList.bestTile(new RGB(77, 66, 60)));
+}
+
+mng2Test2()

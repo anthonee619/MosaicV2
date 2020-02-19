@@ -137,7 +137,6 @@ function switchToImg() {
                     jlist.sort();
                     console.log(jlist.sortedList.length);
                     jlist.print();
-                    jlist.numberOf();
                     return [2 /*return*/];
             }
         });
@@ -159,12 +158,32 @@ function mng2Test() {
                 case 2:
                     _b.sent();
                     mng2.jimpList.print();
-                    mng2.jimpList.numberOf();
-                    console.log(mng2.jimpList.length);
                     return [2 /*return*/];
             }
         });
     });
 }
 // mng2Test();
-example();
+// example();
+function mng2Test2() {
+    return __awaiter(this, void 0, void 0, function () {
+        var inputImage, _a, mng2;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = jimp_image_1.default.bind;
+                    return [4 /*yield*/, jimp_image_1.default.read('./imgs/1.jpg')];
+                case 1:
+                    inputImage = new (_a.apply(jimp_image_1.default, [void 0, _b.sent()]))();
+                    mng2 = new MNG2_1.default(inputImage, urls_1.URLS);
+                    return [4 /*yield*/, mng2.getTiles()];
+                case 2:
+                    _b.sent();
+                    mng2.jimpList.print();
+                    console.log(mng2.jimpList.bestTile(new rgb_1.default(77, 66, 60)).print());
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+mng2Test2();

@@ -1,6 +1,24 @@
 import JimpImage from './jimp-image';
 import RGB from './rgb';
 
+class bestJimp {
+  jn: JimpNode;
+  diff: number;
+
+  constructor(jn: JimpNode, diff: number) {
+    this.jn = jn;
+    this.diff = diff;
+  }
+
+  calcBest(newJN: JimpNode, newDiff: number) {
+    if (this.diff > newDiff) {
+      this.jn = newJN;
+      this.diff = newDiff;
+    }
+  }
+
+}
+
 class JimpNode {
   public imgs: JimpImage[] = [];
   public rgb: RGB;
@@ -39,7 +57,7 @@ class JimpNode {
   }
 
   print() {
-    return `JimpImage{ imgs: ${this.imgs.length}, hsl: ${this.rgb.hslToString()}}`;
+    return `JimpNode{ imgs: ${this.imgs.length}, rgb: ${this.rgb.print()}}`;
   }
 }
 
@@ -89,5 +107,47 @@ export default class JimpList {
     }
   }
 
+  bestTile(rgb: RGB, searchList?: JimpNode[], bestNode?: any): JimpImage {
+    let _searchList = searchList ? searchList : this.sortedList;
+    let newBest = bestNode ? bestNode : new bestJimp(_searchList[0], 100000000000)
+    if (_searchList.length != 1) {
+      let middle = ~~(_searchList.length / 2);
+      if (_searchList[middle].rgb.bstSort(rgb) === 0 || _searchList[middle].rgb.equals(rgb)) {
+        return bestRandomImage(_searchList[middle]);
+      }
+      // checks to see if the search node is the best node so far
+      let diff = _searchList[middle].rgb.getColorDistance(rgb);
+      newBest.calcBest(_searchList[middle], diff);
 
+      if (_searchList.length % 2 === 1) {
+        // odd
+        if (_searchList[middle].rgb.bstSort(rgb) === -1) {
+          return this.bestTile(rgb, _searchList.splice(0, middle), newBest);
+        }
+        else if (_searchList[middle].rgb.bstSort(rgb) === 1) {
+          return this.bestTile(rgb, _searchList.splice(middle + 1, _searchList.length), newBest);
+        }
+      }
+      else {
+        // even
+        if (_searchList[middle - 1].rgb.bstSort(rgb) === 0 || _searchList[middle - 1].rgb.equals(rgb)) {
+          return bestRandomImage(_searchList[middle - 1]);
+        }
+        else if (_searchList[middle].rgb.bstSort(rgb) === -1) {
+          return this.bestTile(rgb, _searchList.splice(0, middle), newBest);
+        }
+        else if (_searchList[middle].rgb.bstSort(rgb) === 1) {
+          return this.bestTile(rgb, _searchList.splice(middle, _searchList.length), newBest);
+        }
+      }
+    }
+    return bestRandomImage(newBest.jn)
+
+  }
+
+}
+
+function bestRandomImage(jn: JimpNode) {
+  let index = Math.floor(Math.random() * jn.imgs.length);
+  return jn.imgs[index];
 }

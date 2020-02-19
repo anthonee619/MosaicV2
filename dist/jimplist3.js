@@ -40,6 +40,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var rgb_1 = __importDefault(require("./rgb"));
+var bestJimp = /** @class */ (function () {
+    function bestJimp(jn, diff) {
+        this.jn = jn;
+        this.diff = diff;
+    }
+    bestJimp.prototype.calcBest = function (newJN, newDiff) {
+        if (this.diff > newDiff) {
+            this.jn = newJN;
+            this.diff = newDiff;
+        }
+    };
+    return bestJimp;
+}());
 var JimpNode = /** @class */ (function () {
     function JimpNode(img, rgb) {
         this.imgs = [];
@@ -91,7 +104,7 @@ var JimpNode = /** @class */ (function () {
         });
     };
     JimpNode.prototype.print = function () {
-        return "JimpImage{ imgs: " + this.imgs.length + ", hsl: " + this.rgb.hslToString() + "}";
+        return "JimpNode{ imgs: " + this.imgs.length + ", rgb: " + this.rgb.print() + "}";
     };
     return JimpNode;
 }());
@@ -149,13 +162,45 @@ var JimpList = /** @class */ (function () {
             console.log(i + " - " + this.sortedList[i].print());
         }
     };
-    JimpList.prototype.numberOf = function () {
-        var sum = 0;
-        this.sortedList.map(function (item) {
-            sum += item.imgs.length;
-        });
-        console.log(sum);
+    JimpList.prototype.bestTile = function (rgb, searchList, bestNode) {
+        var _searchList = searchList ? searchList : this.sortedList;
+        var newBest = bestNode ? bestNode : new bestJimp(_searchList[0], 100000000000);
+        if (_searchList.length != 1) {
+            var middle = ~~(_searchList.length / 2);
+            if (_searchList[middle].rgb.bstSort(rgb) === 0 || _searchList[middle].rgb.equals(rgb)) {
+                return bestRandomImage(_searchList[middle]);
+            }
+            // checks to see if the search node is the best node so far
+            var diff = _searchList[middle].rgb.getColorDistance(rgb);
+            newBest.calcBest(_searchList[middle], diff);
+            if (_searchList.length % 2 === 1) {
+                // odd
+                if (_searchList[middle].rgb.bstSort(rgb) === -1) {
+                    return this.bestTile(rgb, _searchList.splice(0, middle), newBest);
+                }
+                else if (_searchList[middle].rgb.bstSort(rgb) === 1) {
+                    return this.bestTile(rgb, _searchList.splice(middle + 1, _searchList.length), newBest);
+                }
+            }
+            else {
+                // even
+                if (_searchList[middle - 1].rgb.bstSort(rgb) === 0 || _searchList[middle - 1].rgb.equals(rgb)) {
+                    return bestRandomImage(_searchList[middle - 1]);
+                }
+                else if (_searchList[middle].rgb.bstSort(rgb) === -1) {
+                    return this.bestTile(rgb, _searchList.splice(0, middle), newBest);
+                }
+                else if (_searchList[middle].rgb.bstSort(rgb) === 1) {
+                    return this.bestTile(rgb, _searchList.splice(middle, _searchList.length), newBest);
+                }
+            }
+        }
+        return bestRandomImage(newBest.jn);
     };
     return JimpList;
 }());
 exports.default = JimpList;
+function bestRandomImage(jn) {
+    var index = Math.floor(Math.random() * jn.imgs.length);
+    return jn.imgs[index];
+}

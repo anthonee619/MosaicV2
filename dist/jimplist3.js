@@ -35,12 +35,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var rgb_1 = __importDefault(require("./rgb"));
 var JimpNode = /** @class */ (function () {
     function JimpNode(img, rgb) {
         this.imgs = [];
-        this.imgs.push(img);
-        this.rgb = rgb;
+        if (img != null) {
+            this.imgs.push(img);
+        }
+        this.rgb = rgb ? rgb : new rgb_1.default(0, 0, 0);
         this.left = null;
         this.right = null;
     }
@@ -59,13 +65,11 @@ var JimpNode = /** @class */ (function () {
                         _b.label = 3;
                     case 3:
                         rgb = _a;
-                        if (this.rgb.equals(rgb)) {
-                            // RGB Values are the same
-                            console.log(this.rgb);
-                            console.log(rgb);
+                        if (this.rgb.equals(rgb) || this.rgb.bstSort(rgb) === 0) {
                             this.imgs.push(img);
                         }
-                        else if (this.rgb.greaterThan(rgb)) {
+                        else if (this.rgb.bstSort(rgb) === -1) {
+                            //Value is less than
                             if (this.left != null) {
                                 this.left.add(img, rgb);
                             }
@@ -73,7 +77,7 @@ var JimpNode = /** @class */ (function () {
                                 this.left = new JimpNode(img, rgb);
                             }
                         }
-                        else {
+                        else if (this.rgb.bstSort(rgb) === 1) {
                             if (this.right != null) {
                                 this.right.add(img, rgb);
                             }
@@ -86,16 +90,71 @@ var JimpNode = /** @class */ (function () {
             });
         });
     };
+    JimpNode.prototype.print = function () {
+        return "JimpImage{ imgs: " + this.imgs.length + ", hsl: " + this.rgb.hslToString() + "}";
+    };
     return JimpNode;
 }());
 var JimpList = /** @class */ (function () {
     function JimpList(img, rgb) {
         this.sortedList = [];
-        //will change to RGB class later
-        this.root = new JimpNode(img, rgb);
+        this.root = (img == null) || (rgb == null) ? null : new JimpNode(img, rgb);
+        this.length = 0;
     }
     JimpList.prototype.add = function (img) {
-        this.root.add(img);
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (!(this.root == null)) return [3 /*break*/, 2];
+                        _a = this;
+                        _b = JimpNode.bind;
+                        _c = [void 0, img];
+                        return [4 /*yield*/, img.getAverageColor()];
+                    case 1:
+                        _a.root = new (_b.apply(JimpNode, _c.concat([_d.sent()])))();
+                        return [3 /*break*/, 4];
+                    case 2: return [4 /*yield*/, this.root.add(img)];
+                    case 3:
+                        _d.sent();
+                        _d.label = 4;
+                    case 4:
+                        this.length++;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    JimpList.prototype.sort = function () {
+        if (this.root == null) {
+            throw new Error('There is no root JimpNode for this JimpList');
+        }
+        this._sort(this.root);
+    };
+    JimpList.prototype._sort = function (node) {
+        if (node.left != null) {
+            this._sort(node.left);
+        }
+        this.sortedList.push(node);
+        if (node.right != null) {
+            this._sort(node.right);
+        }
+    };
+    JimpList.prototype.print = function () {
+        if (this.sortedList.length === 0) {
+            this.sort();
+        }
+        for (var i in this.sortedList) {
+            console.log(i + " - " + this.sortedList[i].print());
+        }
+    };
+    JimpList.prototype.numberOf = function () {
+        var sum = 0;
+        this.sortedList.map(function (item) {
+            sum += item.imgs.length;
+        });
+        console.log(sum);
     };
     return JimpList;
 }());

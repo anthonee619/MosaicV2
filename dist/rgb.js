@@ -51,23 +51,19 @@ var RGB = /** @class */ (function () {
     RGB.prototype.hslToString = function () {
         return "[" + this.hsl.h + ", " + this.hsl.s + ", " + this.hsl.l + "],";
     };
-    RGB.prototype.greaterThan = function (rgb) {
+    RGB.prototype.bstSort = function (rgb) {
         if (this.hsl.h === rgb.hsl.h) {
-            // same h values
+            //  same h values
             if (this.hsl.s === rgb.hsl.s) {
-                // same s values
-                if (this.hsl.l != rgb.hsl.l) {
-                    return this.hsl.l > rgb.hsl.l;
+                // same s value
+                if (this.hsl.l === rgb.hsl.l) {
+                    return 0;
                 }
-                else {
-                    // all values are the same
-                    console.log('---------------Warning: HSL values are equal---------------');
-                    console.log(this.hslToString());
-                }
+                return this.hsl.l > rgb.hsl.l ? -1 : 1;
             }
-            return this.hsl.s > rgb.hsl.s;
+            return this.hsl.s > rgb.hsl.s ? -1 : 1;
         }
-        return this.hsl.h > rgb.hsl.h;
+        return this.hsl.h > rgb.hsl.h ? -1 : 1;
     };
     return RGB;
 }());

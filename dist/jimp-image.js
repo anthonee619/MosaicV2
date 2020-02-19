@@ -23,7 +23,6 @@ var JimpImage = /** @class */ (function () {
                     //If this is the error, do not handle it as the api
                     //already tries to read the file twice
                     if (!err.message.includes('Invalid file signature')) {
-                        console.log('throwing error');
                         reject(err);
                     }
                 }

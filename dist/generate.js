@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var jimp_image_1 = __importDefault(require("./jimp-image"));
 var MNG_1 = __importDefault(require("./MNG"));
+var MNG2_1 = __importDefault(require("./MNG2"));
 var urls_1 = require("./urls");
 var report_json_1 = require("./report.json");
 // import JimpList from './jimplist';
@@ -95,54 +96,75 @@ var rgbs = [
 //   jlist.add(rgb);
 // })
 // jlist.print();
-var url = 'https://static-cdn.jtvnw.net/jtv_user_pictures/55e85d0b-fa97-42b6-acfe-34acb695d1df-profile_image-300x300.jpg';
+// const url = 'https://static-cdn.jtvnw.net/jtv_user_pictures/55e85d0b-fa97-42b6-acfe-34acb695d1df-profile_image-300x300.jpg';
 function switchToImg() {
     return __awaiter(this, void 0, void 0, function () {
-        var root, _a, jlist, _b, _c, _loop_1, _d, _e, _i, i;
-        return __generator(this, function (_f) {
-            switch (_f.label) {
+        var jlist, _loop_1, _a, _b, _i, i;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    _a = jimp_image_1.default.bind;
-                    return [4 /*yield*/, jimp_image_1.default.read(url)];
-                case 1:
-                    root = new (_a.apply(jimp_image_1.default, [void 0, _f.sent()]))();
-                    _b = jimplist3_1.default.bind;
-                    _c = [void 0, root];
-                    return [4 /*yield*/, root.getAverageColor()];
-                case 2:
-                    jlist = new (_b.apply(jimplist3_1.default, _c.concat([_f.sent()])))();
+                    jlist = new jimplist3_1.default();
                     _loop_1 = function (i) {
                         var child;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, jimp_image_1.default.read(urls_1.URLS[i]).catch(function (err) { return console.log(i); })];
+                                case 0: return [4 /*yield*/, jimp_image_1.default.read(urls_1.URLS[i]).catch(function (err) { return console.log("Error at " + i); })];
                                 case 1:
                                     child = _a.sent();
-                                    jlist.add(new jimp_image_1.default(child));
+                                    return [4 /*yield*/, jlist.add(new jimp_image_1.default(child))];
+                                case 2:
+                                    _a.sent();
                                     return [2 /*return*/];
                             }
                         });
                     };
-                    _d = [];
-                    for (_e in urls_1.URLS)
-                        _d.push(_e);
+                    _a = [];
+                    for (_b in urls_1.URLS)
+                        _a.push(_b);
                     _i = 0;
-                    _f.label = 3;
-                case 3:
-                    if (!(_i < _d.length)) return [3 /*break*/, 6];
-                    i = _d[_i];
+                    _c.label = 1;
+                case 1:
+                    if (!(_i < _a.length)) return [3 /*break*/, 4];
+                    i = _a[_i];
                     return [5 /*yield**/, _loop_1(i)];
-                case 4:
-                    _f.sent();
-                    _f.label = 5;
-                case 5:
+                case 2:
+                    _c.sent();
+                    _c.label = 3;
+                case 3:
                     _i++;
-                    return [3 /*break*/, 3];
-                case 6:
-                    console.log(jlist);
+                    return [3 /*break*/, 1];
+                case 4:
+                    jlist.sort();
+                    console.log(jlist.sortedList.length);
+                    jlist.print();
+                    jlist.numberOf();
                     return [2 /*return*/];
             }
         });
     });
 }
-switchToImg();
+// switchToImg();
+function mng2Test() {
+    return __awaiter(this, void 0, void 0, function () {
+        var inputImage, _a, mng2;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = jimp_image_1.default.bind;
+                    return [4 /*yield*/, jimp_image_1.default.read('./imgs/1.jpg')];
+                case 1:
+                    inputImage = new (_a.apply(jimp_image_1.default, [void 0, _b.sent()]))();
+                    mng2 = new MNG2_1.default(inputImage, newData);
+                    return [4 /*yield*/, mng2.getTiles()];
+                case 2:
+                    _b.sent();
+                    mng2.jimpList.print();
+                    mng2.jimpList.numberOf();
+                    console.log(mng2.jimpList.length);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+// mng2Test();
+example();

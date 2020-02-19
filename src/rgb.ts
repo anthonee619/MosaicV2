@@ -55,30 +55,18 @@ export default class RGB {
     return `[${this.hsl.h}, ${this.hsl.s}, ${this.hsl.l}],`;
   }
 
-  greaterThan(rgb: RGB) {
+  bstSort(rgb: RGB): number {
     if (this.hsl.h === rgb.hsl.h) {
-      // same h values
+      //  same h values
       if (this.hsl.s === rgb.hsl.s) {
-        // same s values
-        if (this.hsl.l != rgb.hsl.l) {
-          return this.hsl.l > rgb.hsl.l;
+        // same s value
+        if (this.hsl.l === rgb.hsl.l) {
+          return 0;
         }
-        else {
-          // all values are the same
-          console.log('---------------Warning: HSL values are equal---------------');
-          console.log(this.hslToString());
-        }
+        return this.hsl.l > rgb.hsl.l ? -1 : 1;
       }
-      return this.hsl.s > rgb.hsl.s;
+      return this.hsl.s > rgb.hsl.s ? -1 : 1;
     }
-    return this.hsl.h > rgb.hsl.h;
+    return this.hsl.h > rgb.hsl.h ? -1 : 1;
   }
-
-  // greaterThan(rgb: RGB) {
-  //   if (this.hsl.h === rgb.hsl.h) {
-  //     return
-  //   }
-  //   return this.hsl.h > rgb.hsl.h;
-  // }
-
 }

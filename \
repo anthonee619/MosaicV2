@@ -70,7 +70,9 @@ async function mng2Test() {
   const mng2 = new MNG2(inputImage, newData);
   await mng2.getTiles();
   mng2.jimpList.print();
+  mng2.jimpList.numberOf();
+  console.log(mng2.jimpList.length);
 }
 
-// mng2Test();
-example();
+mng2Test();
+// example();

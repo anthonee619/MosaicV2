@@ -154,16 +154,15 @@ function mng2Test() {
                 case 1:
                     inputImage = new (_a.apply(jimp_image_1.default, [void 0, _b.sent()]))();
                     mng2 = new MNG2_1.default(inputImage, newData);
-                    return [4 /*yield*/, mng2.getTiles()];
+                    return [4 /*yield*/, mng2.generate()];
                 case 2:
                     _b.sent();
-                    mng2.jimpList.print();
                     return [2 /*return*/];
             }
         });
     });
 }
-// mng2Test();
+mng2Test();
 // example();
 function mng2Test2() {
     return __awaiter(this, void 0, void 0, function () {
@@ -180,10 +179,10 @@ function mng2Test2() {
                 case 2:
                     _b.sent();
                     mng2.jimpList.print();
-                    console.log(mng2.jimpList.bestTile(new rgb_1.default(77, 66, 60)).print());
+                    console.log(mng2.jimpList.bestTile(new rgb_1.default(77, 66, 60)));
                     return [2 /*return*/];
             }
         });
     });
 }
-mng2Test2();
+// mng2Test2()

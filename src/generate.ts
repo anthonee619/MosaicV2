@@ -67,11 +67,10 @@ async function switchToImg() {
 async function mng2Test() {
   const inputImage = new JimpImage(await JimpImage.read('./imgs/1.jpg'));
   const mng2 = new MNG2(inputImage, newData);
-  await mng2.getTiles();
-  mng2.jimpList.print();
+  await mng2.generate();
 }
 
-// mng2Test();
+mng2Test();
 // example();
 
 async function mng2Test2() {
@@ -82,4 +81,4 @@ async function mng2Test2() {
   console.log(mng2.jimpList.bestTile(new RGB(77, 66, 60)));
 }
 
-mng2Test2()
+// mng2Test2()

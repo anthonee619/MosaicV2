@@ -18,6 +18,10 @@ export default class RGB {
     return Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff);
   }
 
+  getHSLDiff(rgb: RGB) {
+    return Math.abs(this.hsl.h - rgb.hsl.h);
+  }
+
   equals(rgb: RGB) {
     return this.r === rgb.r && this.g === rgb.g && this.b === rgb.b;
   }

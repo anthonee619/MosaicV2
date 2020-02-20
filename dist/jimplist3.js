@@ -40,19 +40,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var rgb_1 = __importDefault(require("./rgb"));
-var bestJimp = /** @class */ (function () {
-    function bestJimp(jn, diff) {
-        this.jn = jn;
-        this.diff = diff;
-    }
-    bestJimp.prototype.calcBest = function (newJN, newDiff) {
-        if (this.diff > newDiff) {
-            this.jn = newJN;
-            this.diff = newDiff;
-        }
-    };
-    return bestJimp;
-}());
 var JimpNode = /** @class */ (function () {
     function JimpNode(img, rgb) {
         this.imgs = [];
@@ -164,15 +151,15 @@ var JimpList = /** @class */ (function () {
     };
     JimpList.prototype.bestTile = function (rgb, searchList, bestNode) {
         var _searchList = searchList ? searchList : this.sortedList;
-        var newBest = bestNode ? bestNode : new bestJimp(_searchList[0], 100000000000);
+        var newBest = bestNode ? bestNode : { best: _searchList[0], diff: 100000000000 };
         if (_searchList.length != 1) {
             var middle = ~~(_searchList.length / 2);
             if (_searchList[middle].rgb.bstSort(rgb) === 0 || _searchList[middle].rgb.equals(rgb)) {
                 return bestRandomImage(_searchList[middle]);
             }
             // checks to see if the search node is the best node so far
-            var diff = _searchList[middle].rgb.getColorDistance(rgb);
-            newBest.calcBest(_searchList[middle], diff);
+            var diff = _searchList[middle].rgb.getHSLDiff(rgb);
+            calcBest(newBest, _searchList[middle], diff);
             if (_searchList.length % 2 === 1) {
                 // odd
                 if (_searchList[middle].rgb.bstSort(rgb) === -1) {
@@ -184,6 +171,8 @@ var JimpList = /** @class */ (function () {
             }
             else {
                 // even
+                var diff_1 = _searchList[middle - 1].rgb.getHSLDiff(rgb);
+                calcBest(newBest, _searchList[middle], diff_1);
                 if (_searchList[middle - 1].rgb.bstSort(rgb) === 0 || _searchList[middle - 1].rgb.equals(rgb)) {
                     return bestRandomImage(_searchList[middle - 1]);
                 }
@@ -195,7 +184,7 @@ var JimpList = /** @class */ (function () {
                 }
             }
         }
-        return bestRandomImage(newBest.jn);
+        return bestRandomImage(newBest.best);
     };
     return JimpList;
 }());
@@ -203,4 +192,11 @@ exports.default = JimpList;
 function bestRandomImage(jn) {
     var index = Math.floor(Math.random() * jn.imgs.length);
     return jn.imgs[index];
+}
+function calcBest(best, challenger, diff) {
+    if (best.diff > diff) {
+        console.log('---Calculted new Best---');
+        return { best: challenger, diff: diff };
+    }
+    return best;
 }
